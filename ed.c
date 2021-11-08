@@ -1098,11 +1098,11 @@ void editorDrawStatusBar(struct abuf* ab) {
  */
 void editorDrawMessageBar(struct abuf* ab) {
     abAppend(ab, "\x1b[K", 3);  // clear the line
-    int msglen = strlen(E.statusmsg);
+    int msglen = strlen(*E.statusmsg);
     if (msglen > E.screenCols)
         msglen = E.screenCols;
     if (msglen && time(NULL) - E.statusmsg_time < 5)
-        abAppend(ab, E.statusmsg, msglen);
+        abAppend(ab, *E.statusmsg, msglen);
 }
 
 void editorClearScreen() {
@@ -1137,7 +1137,7 @@ void editorRefreshScreen() {
 void editorSetStatusMessage(const char* fmt, ...) {
     va_list ap;
     va_start(ap, fmt);
-    vsnprintf(E.statusmsg, sizeof(E.statusmsg), fmt, ap);
+    vsnprintf(*E.statusmsg, sizeof(E.statusmsg), fmt, ap);
     va_end(ap);
     E.statusmsg_time = time(NULL);
 }
